@@ -4,6 +4,7 @@ using UnityEngine;
 
 [RequireComponent (typeof(PolygonCollider2D))]
 [RequireComponent (typeof(SpriteRenderer))]
+[RequireComponent (typeof(Behaviour))]
 public class CrystalField : MonoBehaviour {
 
 	public enum CrystalStates {
@@ -13,9 +14,12 @@ public class CrystalField : MonoBehaviour {
 
 	CrystalStates state;
 	SpriteRenderer sr;
+	Behaviour halo;
 
 	public List<LightPoly.Lights> triggerStates;
 	Dictionary<LightPoly.Lights, bool> currentStates;
+
+	Dictionary<LightPoly.Lights, float> timeMap;
 
 	const float ACTIVE_TIMER = 2.0f; // The thing is active for two seconds before going inactive. 
 	public const float SPEED_SCALAR = 2.0f;
@@ -26,6 +30,7 @@ public class CrystalField : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		sr = GetComponent<SpriteRenderer>();
+		halo = (Behaviour)GetComponent("Halo");
 		state = CrystalStates.IDLE;
 		active_t = 0;
 		// Initialize the current list of stuff in the dict
@@ -39,14 +44,34 @@ public class CrystalField : MonoBehaviour {
 			{LightPoly.Lights.CYAN, false},
 			{LightPoly.Lights.BLACK, false},
 		};
+
+		timeMap = new Dictionary<LightPoly.Lights, float>() {
+			{LightPoly.Lights.WHITE, 0.0f}, 
+			{LightPoly.Lights.RED, 0.0f}, 
+			{LightPoly.Lights.GREEN, 0.0f},
+			{LightPoly.Lights.BLUE, 0.0f},
+			{LightPoly.Lights.YELLOW, 0.0f},
+			{LightPoly.Lights.MAGENTA, 0.0f},
+			{LightPoly.Lights.CYAN, 0.0f},
+			{LightPoly.Lights.BLACK, 0.0f},
+		};
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		// if(isActive()) {
+		// 	active_t -= Time.deltaTime;
+		// 	if(active_t < 0){
+		// 		deactivateCrystal();
+		// 	}
+		// }
+
 		if(isActive()) {
-			active_t -= Time.deltaTime;
-			if(active_t < 0){
-				deactivateCrystal();
+			foreach(var trig in triggerStates) {	
+				timeMap[trig] -= Time.deltaTime;
+				if(timeMap[trig] < 0){
+					deactivateCrystal();
+				}
 			}
 		}
 	}
@@ -62,6 +87,8 @@ public class CrystalField : MonoBehaviour {
 
 			// Itterate through prerequisite states. 
 			currentStates[lp.lightState] = true;
+			timeMap[lp.lightState] = 2.0f;
+
 			foreach (var trig in triggerStates) {
 				// If it's not true, it's not active. 
 				if(currentStates[trig] != true) {
@@ -82,7 +109,9 @@ public class CrystalField : MonoBehaviour {
 		active = true;
 		active_t = ACTIVE_TIMER;
 		state = CrystalStates.ACTIVE;
-		sr.color = LightPoly.colorMap[triggerStates[0]];
+		// sr.color = LightPoly.colorMap[triggerStates[0]];
+		halo.enabled = true;
+		// Debug.Log(halo.enabled);
 	}
 
 	void deactivateCrystal() {
@@ -90,11 +119,14 @@ public class CrystalField : MonoBehaviour {
 		// deactivate all dictionary values. 
 		List<LightPoly.Lights> keys = new List<LightPoly.Lights>(currentStates.Keys);
 		foreach(var entry in keys) {
+			timeMap[entry] = 0.0f;
 			currentStates[entry] = false;
 		}
+
 		active_t = 0f;
 		state = CrystalStates.IDLE;
-		sr.color = new Color(1f, 1f, 1f, 0.30f);
+		// sr.color = new Color(1f, 1f, 1f, 1f);
+		halo.enabled = false;
 	}
 
 	public bool isActive() {

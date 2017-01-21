@@ -42,8 +42,8 @@ public class LightPoly : MonoBehaviour {
 		{Lights.GREEN, 		new Color(0f, 1f, 0f, 1f) },
 		{Lights.BLUE, 		new Color(0f, 0f, 1f, 1f) },
 		{Lights.YELLOW, 	new Color(1f, 1f, 0f, 1f) },
-		{Lights.MAGENTA, 	new Color(0f, 1f, 1f, 1f) },
-		{Lights.CYAN, 		new Color(1f, 0f, 1f, 1f) },
+		{Lights.MAGENTA, 	new Color(1f, 0f, 1f, 1f) },
+		{Lights.CYAN, 		new Color(0f, 1f, 1f, 1f) },
 		{Lights.BLACK, 		new Color(0f, 0f, 0f, 1f) },
 	};
 
@@ -104,6 +104,11 @@ public class LightPoly : MonoBehaviour {
 			// Debug.Log(sr.color);
 		}
 	}
+
+	void OnBecameInvisible() {
+		Debug.Log("Destroyed");
+        Destroy(gameObject);
+    }
 
 	// How to gradually change colors
 	public void transitionToState(Lights state) {
