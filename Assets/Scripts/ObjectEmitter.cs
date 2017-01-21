@@ -25,8 +25,10 @@ public class ObjectEmitter : MonoBehaviour {
 			accumulatedTime = 0;
 			Transform cp = Instantiate(thing, transform.position, Quaternion.identity);
 
-			cp.gameObject.GetComponent<Rigidbody2D>().velocity = (transform.rotation * Vector2.right) * 2;
+			cp.gameObject.GetComponent<Rigidbody2D>().velocity = 
+				(transform.rotation * Vector2.right) * LightPoly.POLY_VEOLCITY_SCALAR;
 			cp.SetParent(gameObject.transform);
+			cp.rotation = transform.rotation;
 
 
 			// Test stuff to check if the light color changing works. 
