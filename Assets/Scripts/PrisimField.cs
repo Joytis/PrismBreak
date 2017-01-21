@@ -54,8 +54,10 @@ public class PrisimField : MonoBehaviour {
 		// Debug.Log("COLLISION HAPPENED");
 
 
+
 		// Manipulate Rigidbody2D if it exists. 
 		Rigidbody2D nrb = other.gameObject.GetComponent<Rigidbody2D>();
+		// Debug.Log("Prevec: " + nrb.velocity);
 		if(nrb != null)
 		{
 			nrb.velocity /= SPEED_SCALAR;
@@ -114,13 +116,13 @@ public class PrisimField : MonoBehaviour {
 
 							nrb.velocity = o.GetComponent<Rigidbody2D>().velocity;
 
-							Debug.Log(nrb.velocity);
+							// Debug.Log("Prerot: " + nrb.velocity);
 							n.transform.rotation = n.transform.rotation * rot;
 
-							Debug.Log(nrb.velocity);
-							nrb.velocity = n.transform.rotation * nrb.velocity;
+							// Debug.Log("Prevel: "+ nrb.velocity);
+							nrb.velocity = rot * nrb.velocity;
 
-							Debug.Log(nrb.velocity);
+							// Debug.Log("Postvel" + nrb.velocity);
 
 							if(nlp != null && nrb != null){
 								nlp.transitionToState(state);

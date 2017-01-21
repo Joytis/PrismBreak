@@ -35,7 +35,8 @@ public class LightPoly : MonoBehaviour {
 
 	bool copyCreated;
 
-	static Dictionary<Lights, Color> colorMap = new Dictionary<Lights, Color> {
+	public static Dictionary<Lights, Color> colorMap = new Dictionary<Lights, Color> {
+		{Lights.NULL, 		new Color(0f, 0f, 0f, 0f) },
 		{Lights.WHITE, 		new Color(1f, 1f, 1f, 1f) },
 		{Lights.RED, 		new Color(1f, 0f, 0f, 1f) },
 		{Lights.GREEN, 		new Color(0f, 1f, 0f, 1f) },
@@ -44,6 +45,18 @@ public class LightPoly : MonoBehaviour {
 		{Lights.MAGENTA, 	new Color(0f, 1f, 1f, 1f) },
 		{Lights.CYAN, 		new Color(1f, 0f, 1f, 1f) },
 		{Lights.BLACK, 		new Color(0f, 0f, 0f, 1f) },
+	};
+
+	public static Dictionary<Lights, List<Lights>> lightCombinations = new Dictionary<Lights, List<Lights>> {
+		{Lights.NULL, 		 new List<Lights> {Lights.NULL}},
+		{Lights.WHITE, 		 new List<Lights> {Lights.RED, Lights.BLUE, Lights.GREEN}},
+		{Lights.RED, 		 new List<Lights> {}},
+		{Lights.GREEN, 		 new List<Lights> {}},
+		{Lights.BLUE, 		 new List<Lights> {}},
+		{Lights.YELLOW, 	 new List<Lights> {Lights.RED, Lights.GREEN}},
+		{Lights.MAGENTA, 	 new List<Lights> {Lights.RED, Lights.BLUE}},
+		{Lights.CYAN, 		 new List<Lights> {Lights.BLUE, Lights.GREEN}},
+		{Lights.BLACK, 		 new List<Lights> {}},
 	};
 
 	private SpriteRenderer sr;
