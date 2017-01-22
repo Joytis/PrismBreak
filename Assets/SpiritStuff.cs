@@ -29,3 +29,4 @@ public class SpiritStuff : MonoBehaviour {
 		start_x = x;
 	}
 }
+	
