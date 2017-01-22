@@ -31,7 +31,7 @@ public class MirrorScript : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other) {
 		GameObject o = other.gameObject;
-		LightPoly olp = o.GetComponent<LightPoly>();
+		// LightPoly olp = o.GetComponent<LightPoly>();
 		Transform ot = o.transform;
 		Rigidbody2D orb = o.GetComponent<Rigidbody2D>();
 

@@ -1,11 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class CrystalControllerScript : MonoBehaviour {
 
 	public List<Transform> CrystalTransforms;
 	List<CrystalField> _crystals;
+
+	public string NextLevel;
+
+	const float WINTIME = 2.0f;
+	float countdown = 0;
 
 	bool hasWon;
 
@@ -20,17 +26,31 @@ public class CrystalControllerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		bool didwin = true;
-		foreach(var crys in _crystals) {
-			if(crys.getState() != CrystalField.CrystalStates.ACTIVE) {
-				didwin = false;
-				break;
+		if(!hasWon){
+			bool didwin = true;
+			foreach(var crys in _crystals) {
+				if(crys.getState() != CrystalField.CrystalStates.ACTIVE) {
+					didwin = false;
+					break;
+				}
+			}
+			hasWon = didwin;
+			if(hasWon)
+			{
+				countdown = WINTIME;
 			}
 		}
-		hasWon = didwin;
+		else {
+			countdown -= Time.deltaTime;
+			if(countdown < 0f) {
+				SceneManager.LoadScene(NextLevel);
+			}
+		}
 
 		Debug.Log(Won());
 	}
+
+
 
 	public bool Won() {
 		return hasWon;

@@ -7,11 +7,26 @@ public class ObjectEmitter : MonoBehaviour {
 
 	public float frequency; // Objects per second
 	public Transform thing;
+	public LightPoly.Lights color;
 
+	public AudioClip onClip;
+	public AudioClip offClip;
+
+	AudioSource onSource;
+	AudioSource offSource;
+
+	bool currentlyOn;
 	float accumulatedTime;
 
 	// Use this for initialization
 	void Awake() {
+		currentlyOn = false;
+		onSource = gameObject.AddComponent<AudioSource>();
+		offSource = gameObject.AddComponent<AudioSource>();
+
+		onSource.clip = onClip;
+		offSource.clip = offClip;
+
 		accumulatedTime = 0;
 	}
  
@@ -23,14 +38,20 @@ public class ObjectEmitter : MonoBehaviour {
 		if(accumulatedTime > (1 / frequency)  && frequency != 0)
 		{
 			accumulatedTime = 0;
-			Transform cp = Instantiate(thing, transform.position, Quaternion.identity);
-
-			cp.gameObject.GetComponent<Rigidbody2D>().velocity = 
-				(transform.rotation * Vector2.right) * LightPoly.POLY_VEOLCITY_SCALAR;
-			cp.SetParent(gameObject.transform);
-			cp.rotation = transform.rotation;
+			if(currentlyOn){
+				Transform cp = Instantiate(thing, transform.position, Quaternion.identity);
 
 
+				cp.gameObject.GetComponent<Rigidbody2D>().velocity = 
+					(transform.rotation * Vector2.right) * LightPoly.POLY_VEOLCITY_SCALAR;
+				cp.SetParent(gameObject.transform);
+				cp.rotation = transform.rotation;
+
+				Vector2 offset = (cp.rotation * Vector2.right) * 0.7f;
+				cp.position += (Vector3)offset;
+
+				cp.GetComponent<LightPoly>().swapColorNow(color);
+			}
 			// Test stuff to check if the light color changing works. 
 			// Array values = Enum.GetValues(typeof(LightPoly.Lights));
 			// System.Random random = new System.Random();
@@ -39,4 +60,15 @@ public class ObjectEmitter : MonoBehaviour {
 			// cp.gameObject.GetComponent<LightPoly>().changeLightState(randomLight);
 		}
 	}
+
+	void OnMouseDown() {
+		if(currentlyOn) {
+			offSource.Play();
+		}
+		else {
+			onSource.Play();
+		}
+		currentlyOn = !currentlyOn; // Toggle :D
+	}
+
 }

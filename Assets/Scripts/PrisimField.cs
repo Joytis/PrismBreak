@@ -109,6 +109,7 @@ public class PrisimField : MonoBehaviour {
 							n.transform.SetParent(o.transform.parent);
 							n.transform.position = o.transform.position;
 							n.transform.rotation = o.transform.rotation;
+							n.transform.localScale = o.transform.localScale;
 							nlp = n.GetComponent<LightPoly>();
 							nrb = n.GetComponent<Rigidbody2D>();
 

@@ -10,6 +10,12 @@ public class LoadOnClick : MonoBehaviour {
     public void LoadScene(int level)
     {
         loadingImage.SetActive(true);
-        SceneManager.LoadScene("Level1");
+        SceneManager.LoadScene(level);
+    }
+
+    public void LoadScene(string sname)
+    {
+    	loadingImage.SetActive(true);
+    	SceneManager.LoadScene(sname);
     }
 }

@@ -17,7 +17,7 @@ public class LightPoly : MonoBehaviour {
 		BLACK,
 	};
 
-	public const float POLY_VEOLCITY_SCALAR = 2.0f;
+	public const float POLY_VEOLCITY_SCALAR = 4.0f;
 
 	public Lights lightState;
 	Lights previouState;
@@ -60,6 +60,7 @@ public class LightPoly : MonoBehaviour {
 	};
 
 	private SpriteRenderer sr;
+	// private Behaviour halo;
 
 	public void changeLightState(Lights state) {
 		lightState = state;
@@ -72,6 +73,7 @@ public class LightPoly : MonoBehaviour {
 		sr = GetComponent<SpriteRenderer>();
 		passedTime = 0f;
 		copyCreated = false;
+		// halo = (Behaviour)GetComponent("Halo");
 	}
 	
 	// Update is called once per frame
@@ -128,6 +130,12 @@ public class LightPoly : MonoBehaviour {
 		tG = cs.g - ct.g;
 		tB = cs.b - ct.b;
 
+	}
+
+	public void swapColorNow(Lights state) {
+		previouState = lightState;
+		lightState = state;
+		sr.color = colorMap[lightState];
 	}
 
 	public void setCopy(){ copyCreated = true; }

@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent (typeof(PolygonCollider2D))]
 [RequireComponent (typeof(SpriteRenderer))]
 [RequireComponent (typeof(Behaviour))]
+[RequireComponent (typeof(AudioSource))]
 public class CrystalField : MonoBehaviour {
 
 	public enum CrystalStates {
@@ -13,8 +14,9 @@ public class CrystalField : MonoBehaviour {
 	};
 
 	CrystalStates state;
-	SpriteRenderer sr;
+	// SpriteRenderer sr;
 	Behaviour halo;
+	AudioSource ac;
 
 	public List<LightPoly.Lights> triggerStates;
 	Dictionary<LightPoly.Lights, bool> currentStates;
@@ -24,15 +26,18 @@ public class CrystalField : MonoBehaviour {
 	const float ACTIVE_TIMER = 2.0f; // The thing is active for two seconds before going inactive. 
 	public const float SPEED_SCALAR = 2.0f;
 
-	float active_t;
+	// float active_t;
 	bool active;
+	bool toggle;
 
 	// Use this for initialization
 	void Awake () {
-		sr = GetComponent<SpriteRenderer>();
+		toggle = false;
+		// sr = GetComponent<SpriteRenderer>();
+		ac = GetComponent<AudioSource>();
 		halo = (Behaviour)GetComponent("Halo");
 		state = CrystalStates.IDLE;
-		active_t = 0;
+		// active_t = 0;
 		// Initialize the current list of stuff in the dict
 		currentStates = new Dictionary<LightPoly.Lights, bool>() {
 			{LightPoly.Lights.WHITE, false}, 
@@ -106,8 +111,12 @@ public class CrystalField : MonoBehaviour {
 	}
 
 	void activateCrystal() {
+		if(toggle == false) {
+			toggle = true;
+			ac.Play();
+		}
 		active = true;
-		active_t = ACTIVE_TIMER;
+		// active_t = ACTIVE_TIMER;
 		state = CrystalStates.ACTIVE;
 		// sr.color = LightPoly.colorMap[triggerStates[0]];
 		halo.enabled = true;
@@ -116,6 +125,7 @@ public class CrystalField : MonoBehaviour {
 
 	void deactivateCrystal() {
 		active = false;
+		toggle = false;
 		// deactivate all dictionary values. 
 		List<LightPoly.Lights> keys = new List<LightPoly.Lights>(currentStates.Keys);
 		foreach(var entry in keys) {
@@ -123,7 +133,7 @@ public class CrystalField : MonoBehaviour {
 			currentStates[entry] = false;
 		}
 
-		active_t = 0f;
+		// active_t = 0f;
 		state = CrystalStates.IDLE;
 		// sr.color = new Color(1f, 1f, 1f, 1f);
 		halo.enabled = false;
