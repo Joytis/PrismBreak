@@ -146,7 +146,9 @@ public class CrystalField : MonoBehaviour {
 	}
 
 	public void ActivateTheGhost() {
-		
+		GameObject coolGhost = Instantiate(ghostThing);
+		coolGhost.transform.position = transform.position;
+		coolGhost.GetComponent<SpiritStuff>().SetX(transform.position.x);
 	}
 
 	public CrystalStates getState () { return state; }
