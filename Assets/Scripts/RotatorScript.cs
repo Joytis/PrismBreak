@@ -10,10 +10,17 @@ public class RotatorScript : MonoBehaviour {
 	private Vector3 _rotation;
 	private bool _isRotating;
 
+	public AudioClip sandmove;
+	AudioSource sandSource;
+
 	void Start ()
 	{
 		_sensitivity = 0.4f;
 		_rotation = Vector3.zero;
+
+		sandSource = gameObject.AddComponent<AudioSource>();
+		sandSource.clip = sandmove;
+		sandSource.volume = 0.02f;
 	}
 
 	void Update()
@@ -41,6 +48,8 @@ public class RotatorScript : MonoBehaviour {
 		// Debug.Log("MOUSEDOWN");
 	 	// rotating flag
 		_isRotating = true;
+
+		sandSource.Play();
 	 
 	 	// store mouse
 	 	_mouseReference = Input.mousePosition;

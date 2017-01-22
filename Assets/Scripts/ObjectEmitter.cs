@@ -27,6 +27,8 @@ public class ObjectEmitter : MonoBehaviour {
 		onSource.clip = onClip;
 		offSource.clip = offClip;
 
+		onSource.volume = 0.8f;
+
 		accumulatedTime = 0;
 	}
  

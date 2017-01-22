@@ -18,6 +18,8 @@ public class CrystalField : MonoBehaviour {
 	Behaviour halo;
 	AudioSource ac;
 
+	public GameObject ghostThing;
+
 	public List<LightPoly.Lights> triggerStates;
 	Dictionary<LightPoly.Lights, bool> currentStates;
 
@@ -141,6 +143,10 @@ public class CrystalField : MonoBehaviour {
 
 	public bool isActive() {
 		return active;
+	}
+
+	public void ActivateTheGhost() {
+		
 	}
 
 	public CrystalStates getState () { return state; }

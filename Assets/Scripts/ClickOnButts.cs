@@ -17,6 +17,9 @@ public class ClickOnButts : MonoBehaviour {
 
 		gsource.clip = grab;
 		dsource.clip = drop;
+
+		gsource.volume = 0.2f;
+		dsource.volume = 0.1f;
 	}
 	
 	void OnMouseDown() {

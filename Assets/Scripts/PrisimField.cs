@@ -17,7 +17,7 @@ public class PrisimField : MonoBehaviour {
 
 	Dictionary<LightPoly.Lights, bool> currentStates;
 	const float ACTIVE_TIMER = 2.0f; // The thing is active for two seconds before going inactive. 
-	public const float SPEED_SCALAR = 2.0f;
+	public const float SPEED_SCALAR = LightPoly.POLY_VEOLCITY_SCALAR;
 	public float EntryAngle = 10.0f;
 
 	float active_t;
@@ -60,7 +60,7 @@ public class PrisimField : MonoBehaviour {
 		// Debug.Log("Prevec: " + nrb.velocity);
 		if(nrb != null)
 		{
-			nrb.velocity /= SPEED_SCALAR;
+			nrb.velocity = (nrb.velocity / SPEED_SCALAR) * 2;
 		}
 
 		// Manipulate the LightPoly stuff

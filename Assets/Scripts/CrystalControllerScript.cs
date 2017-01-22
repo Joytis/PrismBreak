@@ -37,6 +37,9 @@ public class CrystalControllerScript : MonoBehaviour {
 			hasWon = didwin;
 			if(hasWon)
 			{
+				foreach(var cryst in _crystals) {
+					cryst.ActivateTheGhost();
+				}
 				countdown = WINTIME;
 			}
 		}
