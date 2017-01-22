@@ -108,7 +108,7 @@ public class LightPoly : MonoBehaviour {
 	}
 
 	void OnBecameInvisible() {
-		Debug.Log("Destroyed");
+		// Debug.Log("Destroyed");
         Destroy(gameObject);
     }
 

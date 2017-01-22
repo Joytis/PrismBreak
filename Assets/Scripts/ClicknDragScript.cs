@@ -2,13 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent (typeof(CamShakeSimple))]
 public class ClicknDragScript : MonoBehaviour {
 
 	// private Color mouseOverColor = Color.blue;
     // private Color originalColor = Color.yellow;
     private bool dragging = false;
     private float distance;
+
+    CamShakeSimple camshake;
  
+    void Awake() {
+        camshake = gameObject.GetComponent<CamShakeSimple>();
+    }
    
     void OnMouseEnter()
     {
@@ -28,7 +34,11 @@ public class ClicknDragScript : MonoBehaviour {
  
     void OnMouseUp()
     {
-        dragging = false;
+        if(dragging)
+        {
+            dragging = false;
+            camshake.InvokeTheShake(0.05f, 0.1f);
+        }
     }
  
     void Update()
